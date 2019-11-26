@@ -1,0 +1,16 @@
+{% extends 'base.html'%}
+
+{% block content %}
+<div class="col-sm-12">
+  <h2>{{ category.name}}</h2>
+  <hr>
+  {% for product in products_of_category%}
+  <div class="col-sm-4">
+    <img src="{{product.image.url}}" style="width:95%;height:95%"alt="">
+    <h4 class="text-centers">{{product.title}}</h4>
+    <p>Price: <strong>{{product.price}}</strong></p>
+    <p class="text-center"><a href='{% url "add_to_cart" product_slug=product.slug %}' class = "text-center"><button class="btn btn-danger" type="button" name="button">Add to basket</button></a></p>
+  </div>
+  {% endfor %}
+</div>
+{% endblock content %}

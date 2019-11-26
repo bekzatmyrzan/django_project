@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{%block content%}
+<h3  class="text-center">Your Basket</h3>
+<br>
+<table class="table">
+  <tr>
+    <td class="text-center"> <strong> Product</strong></td>
+    <td class="text-center"><strong>Quantity</strong></td>
+    <td class="text-center"><strong>Price</strong></td>
+    <td></td>
+  </tr>
+  {% for item in cart.items.all %}
+  <tr>
+    <td class="text-center">{{item.product.title}}</td>
+    <td class="text-center">{{item.product.qty}}</td>
+    <td class="text-center">{{item.product.price}} tng</td>
+    <td class="text-center"> <a href='{% url "remove_from_cart" %}'> <button class="btn btn-default" name="button" style="background:gray"> Remove </button></a> </td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock content %}
