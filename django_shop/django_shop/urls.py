@@ -21,6 +21,7 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('ecomapp.urls')),
+    # url('r^inbox/notifications/$', include(notifications.urls, namespace='notifications')),
 ]
 
 if settings.DEBUG:

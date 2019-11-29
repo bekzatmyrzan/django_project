@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {%block content%}
 <h3  class="text-center">Your Basket</h3>
+{% if cart.items.count > 0 %}
 <br>
 <table class="table">
   <tr>
@@ -11,12 +12,70 @@
     <td></td>
   </tr>
   {% for item in cart.items.all %}
-  <tr>
+  <tr id="{{ item.product.slug }}">
     <td class="text-center">{{item.product.title}}</td>
-    <td class="text-center">{{item.product.qty}}</td>
-    <td class="text-center">{{item.product.price}} tng</td>
-    <td class="text-center"> <a href='{% url "remove_from_cart" %}'> <button class="btn btn-default" name="button" style="background:gray"> Remove </button></a> </td>
+    <td class="text-center">
+      <form action="" method="GET">
+        <input type="number" name="qty" class = 'cart-item-qty' data-id = '{{ item.id }}' value='{{ item.qty }}' min='1' style = 'width:50px;'>
+      </form>
+    </td>
+    <td class="text-center" id = 'cart-item-total-{{ item.id }}'>{{item.item_total}}  tenge</td>
+    <td class="text-center"> <a href='#' class = 'remove_from_cart' data-slug='{{ item.product.slug}}'> <button class="btn btn-default" name="button" style="background:gray"> Remove </button></a> </td>
   </tr>
   {% endfor %}
+  <tr>
+    <td></td>
+    <td></td>
+    <td class = 'text-center' id='cart-total-price'>Total: <strong>{{cart.cart_total}}  tenge</strong></td>
+    <td></td>
+  </tr>
 </table>
+<br>
+<a href='{% url "checkout" %}' class='pull-right'><button class='btn btn-info'>Предварительный заказ</button></a>
+<h3 class='cart-empty'></h3>
+{% else %}
+<h3 class='text-center'>Ваша корзина пуста</h3>
+{% endif %}
+  <script src='{% static "js/jquery/jquery.js" %}'></script>
+  <script>
+    $(document).ready(function(){
+      $('.remove_from_cart').on('click',function(e){
+        e.preventDefault()
+        product_slug = $(this).attr('data-slug')
+        item_product_id = $(this).attr('data-id')
+        data ={
+          product_slug:product_slug
+        }
+        $.ajax({
+          type:"GET",
+          url:'{% url "remove_from_cart" %}',
+          data:data,
+          success: function(data){
+            $("#cart_count").html(data.cart_total)
+            $('#'+product_slug).remove()
+          }
+        })
+      })
+    })
+    $(document).ready(function(){
+      $('.cart-item-qty').on('click',function(){
+        qty = $(this).val()
+        item_id = $(this).attr('data-id')
+        data = {
+          qty : qty,
+          item_id : item_id
+        }
+        $.ajax({
+          type:"GET",
+          url:'{% url "change_item_qty" %}',
+          data: data,
+          success: function(data){
+            $('#cart-item-total-'+item_id).html(parseFloat(data.item_total).toFixed(2) + ' tenge')
+            $('#cart-total-price').html( '<strong>' + parseFloat(data.cart_total_price).toFixed(2) + ' tenge </strong>')
+          }
+        })
+      })
+    })
+  </script>
+
 {% endblock content %}

@@ -10,7 +10,12 @@
 <p>{% lorem %}</p>
 <br>
 <p>Price: <strong>{{product.price}}</strong></p>
+{% if request.user.is_authenticated %}
 <a href='#' class = 'add_to_cart' data-slug='{{ product.slug }}'><button class="btn btn-danger" type="button" name="button">Add to basket</button></a>
+{% endif %}
+{% if not request.user.is_authenticated %}
+<p class='text-center'>Заказывать товар могут только авторизированные пользователи. Пожалуйста, <a href='{% url "login" %}'>войдите</a> или <a href='{% url "registration" %}'>зарегистрируйтесь</a></p>
+{% endif %}
 </div>
   <script src='{% static "js/jquery/jquery.js" %}'></script>
   <script>

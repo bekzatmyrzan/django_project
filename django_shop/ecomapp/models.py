@@ -1,8 +1,13 @@
 from django.db import models
-
-from django.db.models.signals import pre_save
+from django.conf import settings
+from django.db.models.signals import pre_save,post_save
 from django.utils.text import slugify
 from django.urls import reverse
+# from notification import models as notify
+from django.contrib.auth.models import User
+from PIL import Image
+import os
+import glob
 
 # Create your models here.
 class Category(models.Model):
@@ -57,6 +62,24 @@ class Product(models.Model):
     def __str__(self):
         return self.title
 
+# def product_available_notification(sender, instance, *args, **kwargs):
+# 	if instance.available:
+# 		await_for_notify = [notification for notification in MiddlwareNotification.objects.filter(
+# 			product=instance)]
+# 		for notification in await_for_notify:
+# 			notify.send(
+# 				instance,
+# 				recipient=[notification.user_name],
+# 				verb='Уважаемый {0}! {1}, который Вы ждете, поступил'.format(
+# 					notification.user_name.username,
+# 					instance.title),
+# 				description=instance.slug
+# 				)
+# 			notification.delete()
+
+
+# post_save.connect(product_available_notification, sender=Product)
+
 class CartItem(models.Model):
     product = models.ForeignKey(Product,on_delete = models.PROTECT)
     qty = models.PositiveIntegerField(default = 1)
@@ -87,3 +110,42 @@ class Cart(models.Model):
             if cart_item.product == product:
                 cart.items.remove(cart_item)
                 cart.save
+
+ORDER_STATUS_CHOICES = (
+	('Принят в обработку', 'Принят в обработку'),
+	('Выполняется', 'Выполняется'),
+	('Оплачен', 'Оплачен')
+)
+
+class Order(models.Model):
+
+	user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete = models.PROTECT)
+	items = models.ForeignKey(Cart,on_delete = models.PROTECT)
+	total = models.DecimalField(max_digits=9, decimal_places=2, default=0.00)
+	first_name = models.CharField(max_length=200)
+	last_name = models.CharField(max_length=200)
+	phone = models.CharField(max_length=20)
+	address = models.CharField(max_length=255)
+	buying_type = models.CharField(max_length=40, choices=(('Самовывоз', 'Самовывоз'),
+		('Доставка', 'Доставка')), default='Самовывоз')
+	date = models.DateTimeField(auto_now_add=True)
+	comments = models.TextField()
+	status = models.CharField(max_length=100, choices=ORDER_STATUS_CHOICES, default=ORDER_STATUS_CHOICES[0][0])
+
+	def __str__(self):
+		return "Заказ №{0}".format(str(self.id))
+
+
+
+
+# class MiddlwareNotification(models.Model):
+#
+# 	user_name = models.ForeignKey(settings.AUTH_USER_MODEL)
+# 	product = models.ForeignKey(Product)
+# 	is_notified = models.BooleanField(default=False)
+#
+# 	def __str__(self):
+# 		return "Нотификация для пользователя {0} о поступлении товара {1}".format(
+# 	   	self.user_name.username,
+# 	   	self.product.title
+# 	   	)
