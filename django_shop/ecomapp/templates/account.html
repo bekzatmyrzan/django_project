@@ -7,22 +7,22 @@
 <hr>
 <h4 class='text-center'>Ваши заказы</h4>
 <table class='table'>
-<tr style='background:lightblue;'>
-	<td class='text-center'>Номер заказа</td>
-	<td class='text-center'>Дата заказа</td>
-	<td class='text-center'>Статус заказа</td>
-	<td class='text-center'>Стоимость заказа</td>
-	<td class='text-center'>Детали заказа</td>
+<tr style='background:skyblue;'>
+	<td class='text-center'>Number of order</td>
+	<td class='text-center'>Date of order</td>
+	<td class='text-center'>Status</td>
+	<td class='text-center'>Cost</td>
+	<td class='text-center'>Details</td>
 	<td></td>
 </tr>
 {% for item in order %}
 <tr>
-	<td class='text-center' style='padding-top: 20px; padding-bottom: 20px;'>{{ item.id }}</td>
-	<td class='text-center' style='padding-top: 20px; padding-bottom: 20px;'>{{ item.date }}</td>
-	<td class='text-center' style='padding-top: 20px; padding-bottom: 20px;'>{{ item.status }}</td>
-	<td class='text-center' style='padding-top: 20px; padding-bottom: 20px;'>{{ item.total }} руб.</td>
+	<td class='text-center' style='padding-top: 20px; padding-bottom: 20px;border-color:black'>{{ item.id }}</td>
+	<td class='text-center' style='padding-top: 20px; padding-bottom: 20px;border-color:black'>{{ item.date }}</td>
+	<td class='text-center' style='padding-top: 20px; padding-bottom: 20px;border-color:black'>{{ item.status }}</td>
+	<td class='text-center' style='padding-top: 20px; padding-bottom: 20px;border-color:black'>{{ item.total }} tenge.</td>
 	<td class='text-center' style='padding-top: 20px; padding-bottom: 20px;'><button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#myModal-{{ item.id }}">
-  Детали заказа
+  Details of order
 </button></td>
 </tr>
 {% endfor %}

@@ -10,13 +10,19 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Shop Homepage - Start Bootstrap Template</title>
-
+  <title>MSQ</title>
   <!-- Bootstrap core CSS -->
   <link href='{% static "css/bootstrap.css" %}' rel="stylesheet">
 
   <!-- Custom styles for this template -->
   <link href='{% static "css/shop-homepage.css" %}' rel="stylesheet">
+  <style>
+  body {
+    background-image: url('media/phon_first.jpg');
+
+  }
+  </style>
+
 
 </head>
 
@@ -69,45 +75,18 @@
 						<a class="nav-link" href='{% url "logout" %}' style="color:skyblue"> Выйти</a>
 					</li>
           <li class="nav-item">
-            <a class="nav-link" href='{% url "cart" %}' tabindex="-1" aria-disabled="true" style="width:100px;heigth:20px">
-              <img src="media\icons\basket_icon.png" href='{% url "cart" %}' alt="" style="width:70%;height:50%"> <span class = 'badge' id='cart_count'>{{cart.items.count}}</span>
+            <a class="nav-link" href='{% url "cart" %}' tabindex="-1" aria-disabled="true" style="width:90px;heigth:40px">
+              <img src="media\icons\basket_icon.png" href='{% url "cart" %}' alt="" style="width:35px;height:30px"> <span class = 'badge' id='cart_count'>{{cart.items.count}}</span>
             </a>
           </li>
 				{% endif %}
     </ul>
-    <form class="form-inline my-2 my-lg-0">
+    <form class="form-inline my-2 my-lg-0" style="height:10%">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit" style="color:skyblue;border-color:skyblue;border background :skyblue;" >Search</button>
     </form>
   </div>
   </nav>
-
-  <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container">
-      <a class="navbar-brand" href="#">Start Bootstrap</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Home
-              <span class="sr-only">(current)</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Services</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Contact</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav> -->
 
   <!-- Page Content -->
   <div class="container">
@@ -115,8 +94,7 @@
     <div class="row">
 
       <div class="col-lg-3">
-
-        <h1 class="my-4">Shop Name</h1>
+        <h1 class="my-4">MSQ </h1>
         <div class="list-group">
           {% for category in categories %}
           <a href="/categories/{{  category.slug }}" class="list-group-item">{{ category.name }}</a>
@@ -308,8 +286,69 @@
   <!-- Footer -->
   <footer class="py-5 bg-dark">
     <div class="container">
-      <p class="m-0 text-center text-white">Copyright &copy; Your Website 2019</p>
-    </div>
+
+      <!-- ROW -->
+      <div class="row" data-appear-top-offset="-200" data-animated="fadeInUp">
+
+        <div class="col-lg-3 col-md-3 col-sm-6 padbot30">
+        <h4 style="margin-bottom: 26px;color:white"><b>Адрес</b></h4>
+        <p style="color:white">050040 г. Алматы, ул. Манаса 34/1</p>
+          <iframe src="https://yandex.com/map-widget/v1/-/CGdRQG3c" width="360" height="240" frameborder="1" allowfullscreen="true" width="290" height="240" frameborder="0" style="border:0" allowfullscreen></iframe>
+        </div>
+        <div class="col-lg-3 col-md-3 padbot30">
+            <!-- <img src="img/uni.png" style="width: 205px; margin-top: 106px; margin-left: 39px;"> -->
+        </div>
+
+        <div style="color:white" class="col-lg-3 col-md-3 col-sm-3 padbot30 foot_about_block">
+          <h4><b>Контакты</b></h4>
+          <p>Приёмная ректора:<br>
+          +7(727) 330 85 60<br>Приемная комиссия:<br> +7(727) 320-00-00 или <br>  +7(727) 320-00-01<br>+7(727) 244-83-74<br>+7(727) 244-83-75</p>
+            <a href="/article/show/id/213" class="btn" style="font-size: 12px; font-weight: 400; color: white; border: 3px solid rgb(106, 106, 106); background: rgb(28, 28, 28) none repeat scroll 0% 0%; padding: 8px 19px; margin-top: 0px; margin-bottom: 6px;">Контакты</a>
+     <a href="/vacancies" class="btn" style="font-size: 12px; font-weight: 400; color: white; border: 3px solid rgb(106, 106, 106); background: rgb(28, 28, 28) none repeat scroll 0% 0%; padding: 8px 19px; margin-top: 0px; margin-bottom: 6px;">Вакансии</a>
+
+          <ul class="social" style="padding: 7px 0px;">
+            <li><a href="https://www.instagram.com/msq.official/" ><img src="media\icons\instagram_icon.png" alt="" style="width:25px;height:25px">Instagram</a></li>
+            <li><a href="https://www.facebook.com/pages/category/Clothing--Brand-/MSQ-ALmaty-406923966377243/" ><img src="media\icons\facebook_icon.png" alt="" style="width:25px;height:25px">Facebook</a></li>
+          </ul>
+       <p> </p>
+        </div>
+
+        <div class="respond_clear"></div>
+
+        <div class="col-lg-3 col-md-3 padbot30">
+          <h4  style="color:white"><b>Свяжитесь с </b>нами</h4>
+
+          <!-- CONTACT FORM -->
+          <div class="span9 contact_form">
+            <div id="note"></div>
+            <div id="fields">
+              <form id="contact-form-face" class="clearfix" action="#">
+                <div class="sended_contact" style="display:none;">
+                  <div style="text-align: center; font-size: 45px;">
+                  <i class="fa fa-paper-plane" aria-hidden="true" style="text-align: center;  font-size: 179px; color: rgb(255, 255, 255);"></i>
+                  </div>
+                  <div style="text-align: center; font-size: 25px;margin: 39px 0px;">
+                  <span>Отправлено !!! </span>
+                </div>
+                </div>
+                <div class="contact_block">
+                <input class="contact_name" type="text" placeholder="Имя"/>
+                <input class="contact_email"  type="text" placeholder="E-mail"/>
+                <textarea  class="contact_content"  placeholder="message"> </textarea>
+                  <input class="contact_btn contact_button"  value="Отправить" />
+                </div>
+              </form>
+            </div>
+          </div><!-- //CONTACT FORM -->
+        </div>
+      </div>
+      <!-- //ROW
+      <div class="row">
+      <!СОЗДАНО ВЫПУСКНИКАМИ УНИВЕРСИТЕТА 2015: ВЕБ-СТУДИЕЙ APPLE CITY CREATIVE
+      </div>-->
+    </div><!-- //CONTAINER -->
+
+
     <!-- /.container -->
   </footer>
 
