@@ -62,12 +62,6 @@ class RegistrationForm(forms.ModelForm):
 		if password != password_check:
 			raise forms.ValidationError('Ваши пароли не совпадают! Попробуйте снова!')
 
-
-
-
-
-
-
 class OrderForm(forms.Form):
 
 	name = forms.CharField()

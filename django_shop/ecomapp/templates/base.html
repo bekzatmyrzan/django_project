@@ -17,10 +17,10 @@
   <!-- Custom styles for this template -->
   <link href='{% static "css/shop-homepage.css" %}' rel="stylesheet">
   <style>
-  body {
+  /* body {
     background-image: url('media/phon_first.jpg');
 
-  }
+  } */
   </style>
 
 
@@ -53,6 +53,15 @@
             {% endfor %}
         </div>
       </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Sort
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navDropdown">
+            <div class=""><a class="dropdown-item-increase" href="/sort_by_price_increase/{{  category.slug }}"> By price(Increase) </a> </div>
+            <div class=""><a class="dropdown-item-decrease" href="/sort_by_price_decrease/{{  category.slug }}"> By price(Decrease) </a> </div>
+        </div>
+      </li>
       {% endif %}
       {% if not request.user.is_authenticated %}
 					<li>
@@ -80,10 +89,17 @@
             </a>
           </li>
 				{% endif %}
+        <!-- <li class="nav-item">
+        <p class='navbar-text'>Здравствуйте, {{ request.user }} </p>
+        </li> -->
     </ul>
-    <form class="form-inline my-2 my-lg-0" style="height:10%">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" style="color:skyblue;border-color:skyblue;border background :skyblue;" >Search</button>
+
+    <form class="form-inline my-2 my-lg-0" style="height:10%" action='{%url "search" %}' method="post">
+      {% csrf_token %}
+        <input type="text" name="search_field" value="" method='POST' placeholder="Search here" >
+        <input type="submit" name="Search" value="Search">
+      <!-- <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" style="color:skyblue;border-color:skyblue;border background :skyblue;" >Search</button> -->
     </form>
   </div>
   </nav>
@@ -148,28 +164,46 @@
         </div> -->
         <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
           <div class="carousel-inner" role="listbox">
-            {% for product in products %}
-              {% if forloop.first %}
-                <div class="carousel-item active">
-                  <img class="d-block img-fluid" src="{{ product.image.url }}" alt="First slide" style="padding-left:260px;height:300px">
-                  <p class="text-center"><a href="{{ product.get_absolute_url}}"> <button class = "btn btn-primary" type="button" name="button">{{product.title}}</button> </a></p>
-                </div>
+            {% if popular_products %}
+              {% for product in popular_products %}
+                {% if forloop.first %}
+                    <div align="center" class="carousel-item active">
+                      <img src="media\popular_photo.png" style="weight:10px;height:100px">
+                      <img class="d-block img-fluid" src="{{ product.image.url }}" alt="First slide" style="padding-left:20px;padding-right:20px;height:300px">
+                      <p class="text-center"><a href="{{ product.get_absolute_url}}"> <button class = "btn btn-primary" type="button" name="button">{{product.title}}</button> </a></p>
+                    </div>
                 {% else %}
-                  <div class="carousel-item">
-                    <img class="d-block img-fluid" src="{{ product.image.url }}" alt="Second slide" style="padding-left:260px;height:300px">
-                    <p class="text-center"><a href="{{ product.get_absolute_url}}"> <button class = "btn btn-primary" type="button" name="button">{{product.title}}</button> </a></p>
-                  </div>
-                {% endif %}
-            {% endfor %}
-          </div>
-          <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev" style='background:gray'>
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only" style="color:red">Previous</span>
-          </a>
-          <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next" style='background:gray'>
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only" style="color:red">Next</span>
-          </a>
+                    <div align="center" class="carousel-item">
+                        <img src="media\popular_photo.png" style="weight:10px;height:100px">
+                        <img class="d-block img-fluid" src="{{ product.image.url }}" alt="Second slide" style="padding-left:20px;padding-right:20px;height:300px">
+                      <p class="text-center"><a href="{{ product.get_absolute_url}}"> <button class = "btn btn-primary" type="button" name="button">{{product.title}}</button> </a></p>
+                    </div>
+                  {% endif %}
+              {% endfor %}
+            {% else %}
+                  {% for product in products %}
+                    {% if forloop.first %}
+                      <div align="center" class="carousel-item active">
+                        <img class="d-block img-fluid" src="{{ product.image.url }}" alt="First slide" style="padding-left:20px;padding-right:20px;height:300px">
+                        <p class="text-center"><a href="{{ product.get_absolute_url}}"> <button class = "btn btn-primary" type="button" name="button">{{product.title}}</button> </a></p>
+                      </div>
+                      {% else %}
+                        <div align="center" class="carousel-item">
+                          <img class="d-block img-fluid" src="{{ product.image.url }}" alt="Second slide" style="padding-left:20px;padding-right:20px;height:300px">
+                          <p class="text-center"><a href="{{ product.get_absolute_url}}"> <button class = "btn btn-primary" type="button" name="button">{{product.title}}</button> </a></p>
+                        </div>
+                      {% endif %}
+                  {% endfor %}
+                </div>
+            {% endif %}
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev" style='background:gray'>
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="sr-only" style="color:red">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next" style='background:gray'>
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="sr-only" style="color:red">Next</span>
+                </a>
         </div>
         <br>
         <div class="row">
@@ -181,7 +215,7 @@
                 <h5 class="card-title">
                   <a href="/products/{{ product.slug }}">{{product.title}}</a>
                 </h5>
-                <h5 class = "pull-right"> {{product.price }} dollar. </h5>
+                <h5 class = "pull-right"> {{product.price }} tenge. </h5>
                 <p class="card-text">{{product.description}}</p>
               </div>
               <div class="card-footer">
@@ -301,10 +335,11 @@
 
         <div style="color:white" class="col-lg-3 col-md-3 col-sm-3 padbot30 foot_about_block">
           <h4><b>Контакты</b></h4>
-          <p>Приёмная ректора:<br>
-          +7(727) 330 85 60<br>Приемная комиссия:<br> +7(727) 320-00-00 или <br>  +7(727) 320-00-01<br>+7(727) 244-83-74<br>+7(727) 244-83-75</p>
-            <a href="/article/show/id/213" class="btn" style="font-size: 12px; font-weight: 400; color: white; border: 3px solid rgb(106, 106, 106); background: rgb(28, 28, 28) none repeat scroll 0% 0%; padding: 8px 19px; margin-top: 0px; margin-bottom: 6px;">Контакты</a>
-     <a href="/vacancies" class="btn" style="font-size: 12px; font-weight: 400; color: white; border: 3px solid rgb(106, 106, 106); background: rgb(28, 28, 28) none repeat scroll 0% 0%; padding: 8px 19px; margin-top: 0px; margin-bottom: 6px;">Вакансии</a>
+          <p>Служба Поддержки:<br>
+          +7(727) 330 85 60<br> +7(727) 320-00-00
+          <br>  +7(727) 320-00-01<br></p>
+            <a href="#" class="btn" style="font-size: 12px; font-weight: 400; color: white; border: 3px solid rgb(106, 106, 106); background: rgb(28, 28, 28) none repeat scroll 0% 0%; padding: 8px 19px; margin-top: 0px; margin-bottom: 6px;">Контакты</a>
+     <a href="#" class="btn" style="font-size: 12px; font-weight: 400; color: white; border: 3px solid rgb(106, 106, 106); background: rgb(28, 28, 28) none repeat scroll 0% 0%; padding: 8px 19px; margin-top: 0px; margin-bottom: 6px;">Вакансии</a>
 
           <ul class="social" style="padding: 7px 0px;">
             <li><a href="https://www.instagram.com/msq.official/" ><img src="media\icons\instagram_icon.png" alt="" style="width:25px;height:25px">Instagram</a></li>
@@ -335,7 +370,7 @@
                 <input class="contact_name" type="text" placeholder="Имя"/>
                 <input class="contact_email"  type="text" placeholder="E-mail"/>
                 <textarea  class="contact_content"  placeholder="message"> </textarea>
-                  <input class="contact_btn contact_button"  value="Отправить" />
+                  <a href="#" class="btn" style="font-size: 12px; font-weight: 400; color: grey; border: 3px ;border-color: black; background-color: white ; padding: 8px 19px; margin-top: 0px; margin-bottom: 6px;">Отправить</a>
                 </div>
               </form>
             </div>

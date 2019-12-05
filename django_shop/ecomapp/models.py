@@ -55,7 +55,8 @@ class Product(models.Model):
     price = models.DecimalField(max_digits = 9,decimal_places =2)
     available = models.BooleanField(default=True)
     objects = ProductManager() #переопределили какую-то функция и видны только те продукты которые "available"
-
+    numberOfClicks = models.IntegerField(default=0)
+    
     def get_absolute_url(self):
         return reverse('product_detail',kwargs={'product_slug':self.slug})
 

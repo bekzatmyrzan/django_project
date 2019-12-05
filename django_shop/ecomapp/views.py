@@ -24,12 +24,13 @@ def base_view(request):
         cart = Cart.objects.get(id = cart_id)
 
 
-
+    popular_products = Product.objects.filter(numberOfClicks__gt=3).order_by('-numberOfClicks')[:3]
     categories = Category.objects.all()
     products = Product.objects.all()
 
     context = {
         'cart':cart,
+        'popular_products':popular_products,
         'categories' : categories,
         'products' : products
     }
@@ -48,6 +49,8 @@ def product_view(request,product_slug):
         cart = Cart.objects.get(id = cart_id)
 
     product = Product.objects.get(slug = product_slug)
+    product.numberOfClicks = product.numberOfClicks + 1
+    product.save()
     categories = Category.objects.all()
     context ={
         'cart':cart,
@@ -304,3 +307,63 @@ def login_view(request):
 		'categories': categories
 	}
 	return render(request, 'login.html', context)
+
+def search_view(request):
+    try:
+        if request.method=="POST":
+            text_for_search = request.POST.get("search_field")
+            if len(text_for_search)>0:
+                search_res = Product.objects.filter(description__contains=text_for_search)
+            return render(request, "search.html",
+                        {"search_res":search_res,"empty_res":"There is no product"})
+    except:
+        return render(request, "search.html",{"empty_res":"There is no product"})
+
+def sort_by_price_increase_view(request,category_slug):
+    try:
+        cart_id = request.session['cart_id']
+        cart = Cart.objects.get(id = cart_id)
+        request.session['total'] = cart.items.count()
+    except:
+        cart = Cart()
+        cart.save()
+        cart_id = cart.id
+        request.session['cart_id'] = cart_id
+        cart = Cart.objects.get(id = cart_id)
+
+
+    category = Category.objects.get(slug = category_slug)
+    products_of_category = Product.objects.filter(category = category).order_by('price')
+    categories = Category.objects.all()
+    context ={
+        'cart':cart,
+        'category':category,
+        'categories' : categories,
+        'products_of_category':products_of_category
+    }
+    return render(request,'category.html',context)
+
+
+def sort_by_price_decrease_view(request,category_slug):
+    try:
+        cart_id = request.session['cart_id']
+        cart = Cart.objects.get(id = cart_id)
+        request.session['total'] = cart.items.count()
+    except:
+        cart = Cart()
+        cart.save()
+        cart_id = cart.id
+        request.session['cart_id'] = cart_id
+        cart = Cart.objects.get(id = cart_id)
+
+
+    category = Category.objects.get(slug = category_slug)
+    products_of_category = Product.objects.filter(category = category).order_by('-price')
+    categories = Category.objects.all()
+    context ={
+        'cart':cart,
+        'category':category,
+        'categories' : categories,
+        'products_of_category':products_of_category
+    }
+    return render(request,'category.html',context)

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+  {% if search_res %}
+    <br>
+      {% for product in search_res%}
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-100">
+              <a href="/products/{{ product.slug }}"><img class="card-img-top" src="{{ product.image.url }}" alt="" style='width:100%;height: 100%;'></a>
+              <div class="card-body">
+                <h5 class="card-title">
+                  <a href="/products/{{ product.slug }}">{{product.title}}</a>
+                </h5>
+                <h5 class = "pull-right"> {{product.price }} tenge. </h5>
+                <p class="card-text">{{product.description}}</p>
+              </div>
+              <!-- <div class="card-footer">
+                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+              </div> -->
+            </div>
+          </div>
+      {%endfor%}
+    {% else %}
+      {{empty_res}}
+    {% endif %}
+{% endblock content %}
