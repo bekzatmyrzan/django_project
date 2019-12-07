@@ -13,7 +13,7 @@
     <p class="text-center"><a href='#' class = 'add_to_cart' data-slug='{{ product.slug }}'><button class="btn btn-danger" type="button" name="button">Add to basket</button></a></p>
     {% endif %}
     {% if not request.user.is_authenticated %}
-    <p class='text-center'>Заказывать товар могут только авторизированные пользователи. Пожалуйста, <a href='#'>войдите</a> или <a href='#'>зарегистрируйтесь</a></p>
+    <p class='text-center'>Заказывать товар могут только авторизированные пользователи. Пожалуйста, <a href='{% url "login" %}'>войдите</a> или <a href='{% url "registration" %}'>зарегистрируйтесь</a></p>
     {% endif %}
   </div>
   {% endfor %}

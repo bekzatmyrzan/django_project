@@ -17,10 +17,7 @@
   <!-- Custom styles for this template -->
   <link href='{% static "css/shop-homepage.css" %}' rel="stylesheet">
   <style>
-  /* body {
-    background-image: url('media/phon_first.jpg');
 
-  } */
   </style>
 
 
@@ -209,8 +206,10 @@
         <div class="row">
           {% for product in products %}
           <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-100">
-              <a href="/products/{{ product.slug }}"><img class="card-img-top" src="{{ product.image.url }}" alt="" style='width:100%;height: 100%;'></a>
+            <div class="card h-100" >
+
+              <a href="/products/{{ product.slug }}"><img class="card-img-top" src="{{ product.image.url }}" alt="" style='width:100%;height: 100%;' ></a>
+
               <div class="card-body">
                 <h5 class="card-title">
                   <a href="/products/{{ product.slug }}">{{product.title}}</a>
